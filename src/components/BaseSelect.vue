@@ -31,6 +31,9 @@ export default class BaseSelect extends Vue {
   @Prop({ required: true })
   options!: Option[]
 
+  @Prop({ required: true })
+  name!: string
+
   @Watch('options', { immediate: true })
   onInitOptions() {
     this.$emit('input', this.options[0].value)
