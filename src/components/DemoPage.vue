@@ -28,11 +28,23 @@
     </div>
     <div class="flex flex-col space-2-2">
       <BaseSelect
-        v-model="data"
-        :options="options"
-        name="test"
+        v-model="fruitName"
+        :options="fruits"
+        name="fruit"
       />
-      selected value = {{ data }}
+      selected value = {{ fruitName }}
+      <BaseSelect
+        v-model="countryName"
+        :options="countries"
+        name="test"
+      >
+        <template #label="{ option }">
+          <div class="flex justify-between bg-blue">
+            {{ `${option.label} count is ${option.count}` }}
+          </div>
+        </template>
+      </BaseSelect>
+      selected value = {{ countryName }}
     </div>
   </div>
 </template>
@@ -52,8 +64,8 @@ import MessageCard from './MessageCard.vue';
   }
 })
 export default class DemoPage extends Vue {
-  data = ''
-  options = [
+  fruitName = ''
+  fruits = [
     {
       label: "apple",
       value: "1",
@@ -62,6 +74,25 @@ export default class DemoPage extends Vue {
       label: "orange",
       value: "2",
     }
+  ]
+
+  countryName = ''
+  countries = [
+    {
+      label: "japan",
+      value: 1,
+      count: 100,
+    },
+    {
+      label: "korea",
+      value: 2,
+      count: 200,
+    },
+    {
+      label: "china",
+      value: 3,
+      count: 500,
+    },
   ]
   @Prop() private msg!: string;
 }
