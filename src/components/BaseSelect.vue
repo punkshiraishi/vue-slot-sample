@@ -1,6 +1,6 @@
 <template>
   <select
-    :class="`[p2 border border-solid-2 border-gray-800]`"
+    class="p2 border border-solid-2 border-blue rounded"
     :name="name"
     @change="onChange"
   >
@@ -9,7 +9,12 @@
         :key="index"
         :value="option.value"
       >
-        {{ option.label }}
+        <slot
+          name="label"
+          :option="option"
+        >
+          {{ optionLabel(option) }}
+        </slot>
       </option>
     </template>
   </select>
@@ -23,20 +28,31 @@ interface Option {
   value: string,
 }
 
-@Component({})
-export default class BaseSelect extends Vue {
-  @Prop({ required: true })
-  value?: string
+interface DefaultOption<T> {
+  label: string
+  value: T
+}
 
+@Component({})
+export default class BaseSelect<T, U = DefaultOption<T>> extends Vue {
   @Prop({ required: true })
-  options!: Option[]
+  value?: T
+
+  @Prop({ default: () => [] })
+  options!: U[]
 
   @Prop({ required: true })
   name!: string
 
+  @Prop({ default: () => (option: DefaultOption<T>) => option.label })
+  optionLabel!: (option: U) => string
+
+  @Prop({ default: () => (option: DefaultOption<T>) => option.value })
+  optionValue!: (option: U) => T
+
   @Watch('options', { immediate: true })
   onInitOptions() {
-    this.$emit('input', this.options[0].value)
+    this.$emit('input', this.optionValue(this.options[0]))
   }
 
   onChange(event: Event) {
