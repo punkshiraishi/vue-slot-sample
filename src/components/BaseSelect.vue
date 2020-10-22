@@ -11,7 +11,7 @@
       >
         <slot
           name="label"
-          :option="option"
+          :[type]="option"
         >
           {{ optionLabel(option) }}
         </slot>
@@ -43,6 +43,9 @@ export default class BaseSelect<T, U = DefaultOption<T>> extends Vue {
 
   @Prop({ required: true })
   name!: string
+
+  @Prop({ default: 'option' })
+  type!: string
 
   @Prop({ default: () => (option: DefaultOption<T>) => option.label })
   optionLabel!: (option: U) => string

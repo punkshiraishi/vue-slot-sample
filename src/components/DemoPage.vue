@@ -36,11 +36,12 @@
       <BaseSelect
         v-model="countryName"
         :options="countries"
+        type="country"
         name="test"
       >
-        <template #label="{ option }">
+        <template #label="{ country }">
           <div class="flex justify-between bg-blue">
-            {{ `${option.label} count is ${option.count}` }}
+            {{ `${country.label} count is ${country.count}` }}
           </div>
         </template>
       </BaseSelect>
